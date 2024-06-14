@@ -27,6 +27,11 @@ body {
   height: auto;
   transition: opacity 0.5s ease-in-out;
   opacity: 0; /* Start as invisible */
+  margin-bottom: 20px; /* Add padding between the images and the text */
+}
+
+#message {
+  font-size: 2rem; /* Increased font size */
 }
 
 .small-italic {

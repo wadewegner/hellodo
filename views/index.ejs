@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Is a Hotdog a Sandwich?</title>
+    <title>Hello, DigitalOcean!</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link
       rel="stylesheet"
@@ -26,31 +26,25 @@
       document.addEventListener("DOMContentLoaded", () => {
         const messages = [
           {
-            text: "Hi, I’m Wade.",
+            text: "Hi, I’m Wade. I feel so fortunate to join you all at DigitalOcean.",
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
           },
           {
-            text: "I feel so fortunate to join you all at DigitalOcean.",
+            text: "I’ve either been a developer, or built for developers, my entire career.",
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
           },
           {
-            text: "I’ve either been a developer or built for developers my entire career.",
+            text: "I spent the first decade of my career slinging code. Lots of .NET and JavaScript. Also a lot of SharePoint and BizTalk (but don’t tell anyone).",
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
           },
           {
-            text: "I spent the first decade of my career slinging code.",
-            image: "/images/image1.png",
-            imageHeight: "30%",
-            imageWidth: "30%",
-          },
-          {
-            text: "After that, I spent years as a tech evangelist at Microsoft.",
+            text: "After that, I spent years as a tech evangelist at Microsoft. I had so much fun building keynote demos, creating sample apps and tutorials, and traveling the world giving presentations.",
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
@@ -62,13 +56,13 @@
             imageWidth: "30%",
           },
           {
-            text: "Through it all, my favorite part helping developers build amazing things.",
+            text: "Through it all, my favorite part has been helping developers build amazing things.",
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
           },
           {
-            text: "Outside of work, I married my high school sweetheart and best friend. We have three amazing kids: Hayley (18), Katie (16), and Ethan (13).",
+            text: "Outside of work, I married my high school sweetheart and best friend, Teri. We have three amazing kids: Hayley (18), Katie (16), and Ethan (13).",
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
@@ -80,7 +74,7 @@
             imageWidth: "30%",
           },
           {
-            text: "When I’m not playing chauffeur or with family, I’m usually running on trails. I do it a lot.",
+            text: "When I’m not playing chauffeur or with family, I’m usually running on trails. I do it a lot. I’m not fast, but I’m stubborn.",
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
@@ -128,17 +122,18 @@
           messageElement.innerHTML = "";
 
           new TypeIt("#message", {
-            speed: 50, // Updated typing speed
-            lifeLike: true, // Makes typing appear more random like a human
+            speed: 50, // Fixed typing speed
             afterComplete: (instance) => {
               // Add a carriage return by appending a line break and keep blinking cursor
               messageElement.innerHTML += "<br>";
 
-              // Reveal "press any key to continue" text
-              setTimeout(() => {
-                continueMessage.style.opacity = 1;
-                continueMessage.hidden = false;
-              }, 500);
+              // Reveal "press any key to continue" text if not the last message
+              if (index < messages.length - 1) {
+                setTimeout(() => {
+                  continueMessage.style.opacity = 1;
+                  continueMessage.hidden = false;
+                }, 500);
+              }
             },
           })
             .type(messages[index].text)
