@@ -1,0 +1,66 @@
+body {
+  font-family: "Arial", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #f8f9fa; /* Bootstrap's light gray background */
+}
+
+#story-container {
+  position: relative;
+  text-align: center;
+  padding: 0 40px; /* Increased padding to create more buffer on left and right */
+  box-sizing: border-box; /* Ensure padding is included in element's total width */
+}
+
+#image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#story-image {
+  max-width: 80%; /* Ensures image doesn't exceed this width */
+  height: auto;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 0; /* Start as invisible */
+}
+
+.small-italic {
+  font-size: 0.8rem;
+  font-style: italic;
+  margin-top: 10px;
+  transition: opacity 1s ease-in-out;
+  opacity: 0; /* Start as invisible */
+  height: 1em; /* Fixed height to ensure no shifting occurs */
+}
+
+.ti-cursor {
+  font-size: 2em;
+  opacity: 1;
+  animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  #story-image {
+    max-width: 80%;
+  }
+
+  #story-container {
+    padding: 0 20px; /* Reduced padding for smaller screens */
+  }
+}

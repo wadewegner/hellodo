@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Is a Hotdog a Sandwich?</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div id="story-container">
+      <div id="image-container">
+        <img id="story-image" src="" alt="" hidden />
+      </div>
+      <div id="message" class="display-4"></div>
+      <div id="continue-message" class="small-italic">
+        press any key to continue
+      </div>
+    </div>
+
+    <script src="/js/typeit.bundle.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const messages = [
+          {
+            text: "Hi, I’m Wade.",
+            image: "/images/image1.png",
+            imageHeight: "30%",
+            imageWidth: "30%",
+          },
+          {
+            text: "I feel so fortunate to join you all at DigitalOcean.",
+            image: "/images/image1.png",
+            imageHeight: "30%",
+            imageWidth: "30%",
+          },
+          {
+            text: "I’ve either been a developer or built for developers my entire career.",
+            image: "/images/image1.png",
+            imageHeight: "30%",
+            imageWidth: "30%",
+          },
+          {
+            text: "I spent the first decade of my career slinging code.",
+            image: "/images/image1.png",
+            imageHeight: "30%",
+            imageWidth: "30%",
+          },
+          {
+            text: "After that, I spent years as a tech evangelist at Microsoft.",
+            image: "/images/image1.png",
+            imageHeight: "30%",
+            imageWidth: "30%",
+          },
+          {
+            text: "I eventually found my way to product management. I’ve helped build PowerApps, Microsoft Azure, Salesforce Platform, Heroku, and so much in between.",
+            image: "/images/image1.png",
+            imageHeight: "30%",
+            imageWidth: "30%",
+          },
+          {
+            text: "Through it all, my favorite part helping developers build amazing things.",
+            image: "/images/image1.png",
+            imageHeight: "30%",
+            imageWidth: "30%",
+          },
+          {
+            text: "Outside of work, I married my high school sweetheart and best friend. We have three amazing kids: Hayley (18), Katie (16), and Ethan (13).",
+            image: "/images/image1.png",
+            imageHeight: "30%",
+            imageWidth: "30%",
+          },
+          {
+            text: "We also have the two cutest doodles, Oskar and Rizzo.",
+            image: "/images/image1.png",
+            imageHeight: "30%",
+            imageWidth: "30%",
+          },
+          {
+            text: "When I’m not playing chauffeur or with family, I’m usually running on trails. I do it a lot.",
+            image: "/images/image1.png",
+            imageHeight: "30%",
+            imageWidth: "30%",
+          },
+          {
+            text: "I’ve known Paddy for a long time, and I believe in him and his vision for DigitalOcean. I’m incredibly excited about the opportunity to work with all of you to help make it happen.",
+            image: "/images/image1.png",
+            imageHeight: "30%",
+            imageWidth: "30%",
+          },
+        ];
+        let messageIndex = 0;
+
+        const loadImage = (index, callback) => {
+          const imageElement = document.getElementById("story-image");
+          if (messages[index].image) {
+            imageElement.src = messages[index].image;
+            imageElement.style.height = messages[index].imageHeight || "auto";
+            imageElement.style.width = messages[index].imageWidth || "auto";
+            imageElement.hidden = false;
+
+            imageElement.onload = () => {
+              let opacity = 0;
+              const fadeIn = setInterval(() => {
+                if (opacity >= 1) {
+                  clearInterval(fadeIn);
+                  if (callback) callback();
+                } else {
+                  opacity += 0.1;
+                  imageElement.style.opacity = opacity;
+                }
+              }, 50);
+            };
+          } else {
+            if (callback) callback();
+          }
+        };
+
+        const typeMessage = (index) => {
+          const messageElement = document.getElementById("message");
+          const continueMessage = document.getElementById("continue-message");
+
+          // Clear previous content
+          continueMessage.style.opacity = 0;
+          messageElement.innerHTML = "";
+
+          new TypeIt("#message", {
+            speed: 50, // Updated typing speed
+            lifeLike: true, // Makes typing appear more random like a human
+            afterComplete: (instance) => {
+              // Add a carriage return by appending a line break and keep blinking cursor
+              messageElement.innerHTML += "<br>";
+
+              // Reveal "press any key to continue" text
+              setTimeout(() => {
+                continueMessage.style.opacity = 1;
+                continueMessage.hidden = false;
+              }, 500);
+            },
+          })
+            .type(messages[index].text)
+            .go();
+        };
+
+        const displayMessage = (index) => {
+          const messageElement = document.getElementById("message");
+          const continueMessage = document.getElementById("continue-message");
+          const imageElement = document.getElementById("story-image");
+
+          // Clear previous content
+          continueMessage.style.opacity = 0;
+          messageElement.innerHTML = "";
+          imageElement.style.opacity = 0;
+          imageElement.hidden = true;
+
+          // Load image and then type message
+          loadImage(index, () => {
+            typeMessage(index);
+          });
+        };
+
+        const keyHandler = (event) => {
+          if (messageIndex < messages.length - 1) {
+            messageIndex++;
+            displayMessage(messageIndex);
+          }
+        };
+
+        displayMessage(messageIndex); // Initially display the first message
+
+        document.addEventListener("keydown", keyHandler); // Add the key press handler
+      });
+    </script>
+  </body>
+</html>
