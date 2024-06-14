@@ -157,7 +157,7 @@
           });
         };
 
-        const keyHandler = (event) => {
+        const advanceMessage = () => {
           if (messageIndex < messages.length - 1) {
             messageIndex++;
             displayMessage(messageIndex);
@@ -166,7 +166,8 @@
 
         displayMessage(messageIndex); // Initially display the first message
 
-        document.addEventListener("keydown", keyHandler); // Add the key press handler
+        document.addEventListener("keydown", advanceMessage); // Add the key press handler
+        document.addEventListener("click", advanceMessage); // Add the click handler for mobile
       });
     </script>
   </body>
