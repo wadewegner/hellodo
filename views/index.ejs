@@ -84,8 +84,10 @@
             imageWidth: "30%",
           },
         ];
+
         let messageIndex = 0;
-        let isTyping = false;
+        let typeItInstance = null;
+        let typingComplete = false;
 
         const loadImage = (index, callback) => {
           const imageElement = document.getElementById("story-image");
@@ -120,13 +122,15 @@
           continueMessage.style.opacity = 0;
           messageElement.innerHTML = "";
 
-          isTyping = true;
+          typingComplete = false;
 
-          new TypeIt("#message", {
+          typeItInstance = new TypeIt("#message", {
             speed: 50, // Fixed typing speed
             afterComplete: (instance) => {
-              isTyping = false; // Typing is complete
-              // Add a carriage return by appending a line break and keep blinking cursor
+              // Mark typing as complete
+              typingComplete = true;
+
+              // Add a carriage return by appending a line break
               messageElement.innerHTML += "<br>";
 
               // Reveal "press any key to continue" text if not the last message
@@ -136,14 +140,13 @@
                   continueMessage.hidden = false;
                 }, 500);
               }
-              instance.destroy(); // Ensure TypeIt instance is properly destroyed
 
-              // Re-enable the click event listener after typing is complete
-              document.addEventListener("click", advanceMessage);
+              // Ensure TypeIt instance is properly destroyed
+              instance.destroy();
             },
-          })
-            .type(messages[index].text)
-            .go();
+          });
+
+          typeItInstance.type(messages[index].text).go();
         };
 
         const displayMessage = (index) => {
@@ -164,8 +167,8 @@
         };
 
         const advanceMessage = () => {
-          if (!isTyping && messageIndex < messages.length - 1) {
-            document.removeEventListener("click", advanceMessage); // Immediately remove click listener
+          if (typingComplete && messageIndex < messages.length - 1) {
+            typingComplete = false; // Lock advancement until the next typing is complete
             messageIndex++;
             displayMessage(messageIndex);
           }
@@ -173,7 +176,8 @@
 
         displayMessage(messageIndex); // Initially display the first message
 
-        document.addEventListener("click", advanceMessage); // Add the click handler for mouse and touch
+        // Add the click handler for mouse and touch
+        document.addEventListener("click", advanceMessage);
       });
     </script>
   </body>
