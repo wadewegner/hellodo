@@ -137,6 +137,9 @@
                 }, 500);
               }
               instance.destroy(); // Ensure TypeIt instance is properly destroyed
+
+              // Re-enable the click event listener after typing is complete
+              document.addEventListener("click", advanceMessage);
             },
           })
             .type(messages[index].text)
@@ -162,6 +165,7 @@
 
         const advanceMessage = () => {
           if (!isTyping && messageIndex < messages.length - 1) {
+            document.removeEventListener("click", advanceMessage); // Immediately remove click listener
             messageIndex++;
             displayMessage(messageIndex);
           }
