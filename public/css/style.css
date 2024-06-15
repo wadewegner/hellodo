@@ -7,19 +7,21 @@ body {
   height: 100vh;
   text-align: center;
   background-color: #f8f9fa; /* Bootstrap's light gray background */
+  margin: 0;
 }
 
 #story-container {
-  position: relative;
+  width: 80%;
+  max-width: 800px;
   text-align: center;
-  padding: 0 40px; /* Increased padding to create more buffer on left and right */
-  box-sizing: border-box; /* Ensure padding is included in element's total width */
+  padding: 0;
+  box-sizing: border-box;
 }
 
 #image-container {
   width: 100%;
-  display: flex;
-  justify-content: center;
+  text-align: center;
+  margin-bottom: 20px; /* Add margin to separate image and text */
 }
 
 #story-image {
@@ -27,7 +29,10 @@ body {
   height: auto;
   transition: opacity 0.5s ease-in-out;
   opacity: 0; /* Start as invisible */
-  margin-bottom: 20px; /* Add padding between the images and the text */
+}
+
+#text-container {
+  width: 100%; /* Ensure it takes the full width of the container */
 }
 
 #message {
