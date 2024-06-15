@@ -24,61 +24,101 @@
       document.addEventListener("DOMContentLoaded", () => {
         const messages = [
           {
-            text: "Hi, I’m Wade. I feel so fortunate to join you all at DigitalOcean.",
+            text: [
+              "Hi, I’m Wade. ",
+              " Pleased to meet you.",
+              " I am so excited to join you at DigitalOcean.",
+            ],
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
           },
           {
-            text: "I’ve either been a developer, or built for developers, my entire career.",
+            text: [
+              "I’ve either been a developer or built for developers my entire career.",
+            ],
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
           },
           {
-            text: "I spent the first decade of my career slinging code. Lots of .NET and JavaScript. Also a lot of SharePoint and BizTalk (but don’t tell anyone).",
+            text: [
+              "I spent the first decade of my career slinging code.",
+              " Lots of .NET and JavaScript.",
+              " Also a lot of SharePoint, BizTalk, even some RPG on an AS/400",
+              " (but don’t tell anyone).",
+            ],
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
           },
           {
-            text: "After that, I spent years as a tech evangelist at Microsoft. I had so much fun building keynote demos, creating sample apps and tutorials, and traveling the world giving presentations.",
+            text: [
+              "After that, I spent years as a tech evangelist at Microsoft.",
+              " I had so much fun building keynote demos, creating sample apps and tutorials, and traveling the world giving presentations.",
+            ],
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
           },
           {
-            text: "I eventually found my way to product management. I’ve helped build PowerApps, Microsoft Azure, Salesforce Platform, Heroku, and so much in between.",
+            text: [
+              "I eventually found my way to product management.",
+              " I’ve lead product for PowerApps, Microsoft Azure, Salesforce Platform, Heroku, RapidAPI, and so much more.",
+            ],
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
           },
           {
-            text: "Through it all, my favorite part has been helping developers build amazing things.",
+            text: [
+              "One of my favorite product memories is a BillG review where I built a not-yet-announced PowerApp on the fly for Bill simply to get his autograph.",
+              " It worked.",
+            ],
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
           },
           {
-            text: "Outside of work, I married my high school sweetheart and best friend, Teri. We have three amazing kids: Hayley (18), Katie (16), and Ethan (13).",
+            text: [
+              "Through it all, what I’ve enjoyed the most is helping developers build amazing apps.",
+              " And that's why I'm here!",
+            ],
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
           },
           {
-            text: "We also have the two cutest doodles, Oskar and Rizzo.",
+            text: [
+              "Outside of work, I married my high school sweetheart and best friend, Teri.",
+              " We have three amazing kids: Hayley (18), Katie (16), and Ethan (13).",
+            ],
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
           },
           {
-            text: "When I’m not playing chauffeur or with family, I’m usually running on trails. I do it a lot. I’m not fast, but I’m stubborn.",
+            text: ["We also have the two cutest doodles, Oskar and Rizzo."],
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
           },
           {
-            text: "I’ve known Paddy for a long time, and I believe in him and his vision for DigitalOcean. I’m incredibly excited about the opportunity to work with all of you to help make it happen.",
+            text: [
+              "When I’m not playing chauffeur or with family, I’m usually running on trails.",
+              " I do it a lot.",
+              " I’m not fast, but I’m stubborn.",
+            ],
+            image: "/images/image1.png",
+            imageHeight: "30%",
+            imageWidth: "30%",
+          },
+          {
+            text: [
+              "I’m really excited for the future of DigitalOcean.",
+              " I’ve known Paddy for a long time, and I believe in his vision for DigitalOcean.",
+              " I’m thrilled for the opportunity to work with all of you to help make it happen.",
+            ],
             image: "/images/image1.png",
             imageHeight: "30%",
             imageWidth: "30%",
@@ -133,7 +173,7 @@
               // Add a carriage return by appending a line break
               messageElement.innerHTML += "<br>";
 
-              // Reveal "press any key to continue" text if not the last message
+              // Reveal "click to continue" text if not the last message
               if (index < messages.length - 1) {
                 setTimeout(() => {
                   continueMessage.style.opacity = 1;
@@ -146,7 +186,39 @@
             },
           });
 
-          typeItInstance.type(messages[index].text).go();
+          const sentences = messages[index].text;
+
+          sentences.forEach((sentence, i) => {
+            typeItInstance.type(sentence);
+            if (i < sentences.length - 1) {
+              typeItInstance.pause(750); // Pause for 750ms after each sentence
+            }
+          });
+
+          typeItInstance.go();
+        };
+
+        const hideElements = (callback) => {
+          const messageElement = document.getElementById("message");
+          const continueMessage = document.getElementById("continue-message");
+          const imageElement = document.getElementById("story-image");
+
+          let opacity = 1;
+          const fadeOut = setInterval(() => {
+            if (opacity <= 0) {
+              clearInterval(fadeOut);
+              messageElement.innerHTML = "";
+              continueMessage.style.opacity = 0;
+              imageElement.style.opacity = 0;
+              imageElement.hidden = true;
+              if (callback) callback();
+            } else {
+              opacity -= 0.1;
+              messageElement.style.opacity = opacity;
+              continueMessage.style.opacity = opacity;
+              imageElement.style.opacity = opacity;
+            }
+          }, 50);
         };
 
         const displayMessage = (index) => {
@@ -154,9 +226,9 @@
           const continueMessage = document.getElementById("continue-message");
           const imageElement = document.getElementById("story-image");
 
-          // Clear previous content
+          // Reset opacity and hide image to prepare for the next message
           continueMessage.style.opacity = 0;
-          messageElement.innerHTML = "";
+          messageElement.style.opacity = 1;
           imageElement.style.opacity = 0;
           imageElement.hidden = true;
 
@@ -169,8 +241,10 @@
         const advanceMessage = () => {
           if (typingComplete && messageIndex < messages.length - 1) {
             typingComplete = false; // Lock advancement until the next typing is complete
-            messageIndex++;
-            displayMessage(messageIndex);
+            hideElements(() => {
+              messageIndex++;
+              displayMessage(messageIndex);
+            });
           }
         };
 
