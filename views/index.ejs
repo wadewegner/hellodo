@@ -4,11 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hello, DigitalOcean!</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💙</text></svg>"
+    />
+
     <link rel="stylesheet" href="/css/style.css" />
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
+    <script
+      defer
+      data-domain="walrus-app-l8mtz.ondigitalocean.app"
+      src="https://plausible.io/js/script.js"
+    ></script>
   </head>
   <body>
     <div id="story-container">
@@ -22,7 +33,7 @@
     </div>
 
     <footer>
-      Built on DO with 💙 |
+      Built on DigitalOcean with 💙 |
       <a
         href="https://github.com"
         target="https://github.com/wadewegner/hellodo"
@@ -115,103 +126,57 @@
         ];
 
         let messageIndex = 0;
-        let typeItInstance = null;
         let typingComplete = false;
 
-        const loadImage = (index, callback) => {
-          const imageElement = document.getElementById("story-image");
-          if (messages[index].image) {
-            imageElement.src = messages[index].image;
-            imageElement.hidden = false;
-
-            imageElement.onload = () => {
-              let opacity = 0;
-              const fadeIn = setInterval(() => {
-                if (opacity >= 1) {
-                  clearInterval(fadeIn);
-                  if (callback) callback();
-                } else {
-                  opacity += 0.1;
-                  imageElement.style.opacity = opacity;
-                }
-              }, 50);
-            };
-          } else {
-            if (callback) callback();
-          }
-        };
+        const messageElement = document.getElementById("message");
+        const continueMessage = document.getElementById("continue-message");
+        const imageElement = document.getElementById("story-image");
 
         const typeMessage = (index) => {
-          const messageElement = document.getElementById("message");
-          const continueMessage = document.getElementById("continue-message");
+          continueMessage.style.opacity = 0; // Ensure continue message is hidden initially
+          continueMessage.hidden = true; // Hide continue message
 
-          continueMessage.style.opacity = 0;
-          messageElement.innerHTML = "";
-
+          messageElement.innerHTML = ""; // Clear out the previous message
           typingComplete = false;
 
-          typeItInstance = new TypeIt("#message", {
-            speed: 45,
+          const typeItInstance = new TypeIt("#message", {
+            speed: 40,
             afterComplete: (instance) => {
               typingComplete = true;
-
-              messageElement.innerHTML += "<br>";
-
-              if (index < messages.length - 1) {
-                setTimeout(() => {
-                  continueMessage.style.opacity = 1;
-                  continueMessage.hidden = false;
-                }, 500);
-              }
-
-              instance.destroy();
+              continueMessage.style.opacity = 1; // Show "click to continue" message
+              continueMessage.hidden = false; // Ensure it's visible
+              instance.destroy(); // Clean up and remove instance
             },
           });
 
           const sentences = messages[index].text;
-
           sentences.forEach((sentence, i) => {
             typeItInstance.type(sentence);
             if (i < sentences.length - 1) {
-              typeItInstance.pause(750);
+              typeItInstance.pause(750); // Pause between sentences
             }
           });
 
           typeItInstance.go();
         };
 
-        const hideElements = (callback) => {
-          const messageElement = document.getElementById("message");
-          const continueMessage = document.getElementById("continue-message");
-          const imageElement = document.getElementById("story-image");
-
-          let opacity = 1;
-          const fadeOut = setInterval(() => {
-            if (opacity <= 0) {
-              clearInterval(fadeOut);
-              messageElement.innerHTML = "";
-              continueMessage.style.opacity = 0;
-              imageElement.style.opacity = 0;
-              imageElement.hidden = true;
-              if (callback) callback();
-            } else {
-              opacity -= 0.1;
-              messageElement.style.opacity = opacity;
-              continueMessage.style.opacity = opacity;
-              imageElement.style.opacity = opacity;
-            }
-          }, 50);
+        const loadImage = (index, callback) => {
+          if (messages[index].image) {
+            imageElement.src = messages[index].image;
+            imageElement.hidden = false;
+            imageElement.onload = () => {
+              imageElement.style.opacity = 1; // Show image when loaded
+              callback(); // Type message when image is loaded
+            };
+          } else {
+            callback(); // Type message directly if no image needs to be loaded
+          }
         };
 
         const displayMessage = (index) => {
-          const messageElement = document.getElementById("message");
-          const continueMessage = document.getElementById("continue-message");
-          const imageElement = document.getElementById("story-image");
-
-          continueMessage.style.opacity = 0;
-          messageElement.style.opacity = 1;
-          imageElement.style.opacity = 0;
-          imageElement.hidden = true;
+          messageElement.style.opacity = 1; // Ensure message element is visible
+          continueMessage.style.opacity = 0; // Hide the continue text
+          continueMessage.hidden = true; // Also set hidden to avoid accidental clicks
 
           loadImage(index, () => {
             typeMessage(index);
@@ -221,10 +186,11 @@
         const advanceMessage = () => {
           if (typingComplete && messageIndex < messages.length - 1) {
             typingComplete = false;
-            hideElements(() => {
-              messageIndex++;
-              displayMessage(messageIndex);
-            });
+            messageElement.innerHTML = ""; // Clear the message content
+            continueMessage.style.opacity = 0; // Hide "click to continue" message
+            continueMessage.hidden = true; // Also hide from layout
+            messageIndex++; // Increment message index
+            displayMessage(messageIndex); // Display the next message
           }
         };
 
