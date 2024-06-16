@@ -179,8 +179,10 @@
             speed: 40,
             afterComplete: (instance) => {
               typingComplete = true;
-              continueMessage.style.opacity = 1; // Show "click to continue" message
-              continueMessage.hidden = false; // Ensure it's visible
+              if (index < messages.length - 1) {
+                continueMessage.style.opacity = 1; // Show "click to continue" message
+                continueMessage.hidden = false; // Ensure it's visible
+              }
               instance.destroy(); // Clean up and remove instance
             },
           });
