@@ -21,6 +21,15 @@
       </div>
     </div>
 
+    <footer>
+      Built on DO with 💙 |
+      <a
+        href="https://github.com"
+        target="https://github.com/wadewegner/hellodo"
+        >Github</a
+      >
+    </footer>
+
     <script src="/js/typeit.bundle.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
@@ -136,22 +145,18 @@
           const messageElement = document.getElementById("message");
           const continueMessage = document.getElementById("continue-message");
 
-          // Clear previous content
           continueMessage.style.opacity = 0;
           messageElement.innerHTML = "";
 
           typingComplete = false;
 
           typeItInstance = new TypeIt("#message", {
-            speed: 45, // Fixed typing speed
+            speed: 45,
             afterComplete: (instance) => {
-              // Mark typing as complete
               typingComplete = true;
 
-              // Add a carriage return by appending a line break
               messageElement.innerHTML += "<br>";
 
-              // Reveal "click to continue" text if not the last message
               if (index < messages.length - 1) {
                 setTimeout(() => {
                   continueMessage.style.opacity = 1;
@@ -159,7 +164,6 @@
                 }, 500);
               }
 
-              // Ensure TypeIt instance is properly destroyed
               instance.destroy();
             },
           });
@@ -169,7 +173,7 @@
           sentences.forEach((sentence, i) => {
             typeItInstance.type(sentence);
             if (i < sentences.length - 1) {
-              typeItInstance.pause(750); // Pause for 750ms after each sentence
+              typeItInstance.pause(750);
             }
           });
 
@@ -204,13 +208,11 @@
           const continueMessage = document.getElementById("continue-message");
           const imageElement = document.getElementById("story-image");
 
-          // Reset opacity and hide image to prepare for the next message
           continueMessage.style.opacity = 0;
           messageElement.style.opacity = 1;
           imageElement.style.opacity = 0;
           imageElement.hidden = true;
 
-          // Load image and then type message
           loadImage(index, () => {
             typeMessage(index);
           });
@@ -218,7 +220,7 @@
 
         const advanceMessage = () => {
           if (typingComplete && messageIndex < messages.length - 1) {
-            typingComplete = false; // Lock advancement until the next typing is complete
+            typingComplete = false;
             hideElements(() => {
               messageIndex++;
               displayMessage(messageIndex);
@@ -226,9 +228,8 @@
           }
         };
 
-        displayMessage(messageIndex); // Initially display the first message
+        displayMessage(messageIndex);
 
-        // Add the click handler for mouse and touch
         document.addEventListener("click", advanceMessage);
       });
     </script>
