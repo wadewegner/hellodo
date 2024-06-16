@@ -14,7 +14,7 @@ body {
   width: 80%;
   max-width: 800px;
   text-align: center;
-  padding: 0;
+  padding: 0 40px;
   box-sizing: border-box;
 }
 
@@ -25,7 +25,7 @@ body {
 }
 
 #story-image {
-  max-width: 80%; /* Ensures image doesn't exceed this width */
+  max-width: 95%; /* Ensures image doesn't exceed this width */
   height: auto;
   transition: opacity 0.5s ease-in-out;
   opacity: 0; /* Start as invisible */
@@ -67,10 +67,15 @@ body {
 
 @media (max-width: 768px) {
   #story-container {
-    padding: 0 10px; /* Reduced padding for smaller screens */
+    padding: 0 10px; /* Adjusted padding for smaller screens */
   }
 
   #message {
     font-size: 1.5rem; /* Smaller font size for mobile */
+  }
+
+  #story-image {
+    max-width: 95%; /* Increase max-width for mobile */
+    min-width: 70%; /* Ensure the image doesn't get too small on mobile */
   }
 }

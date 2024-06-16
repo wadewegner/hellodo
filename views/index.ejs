@@ -32,16 +32,12 @@
               " I am so excited to join you at DigitalOcean.",
             ],
             image: "/images/image1.png",
-            imageHeight: "30%",
-            imageWidth: "30%",
           },
           {
             text: [
               "I’ve either been a developer, advocated for developers, or built for developers my entire career.",
             ],
             image: "/images/image2.png",
-            imageHeight: "60%",
-            imageWidth: "60%",
           },
           {
             text: [
@@ -50,8 +46,6 @@
               " Also a lot of SharePoint, BizTalk, even some RPG on an AS/400 (but don’t tell anyone).",
             ],
             image: "/images/image3.png",
-            imageHeight: "80%",
-            imageWidth: "80%",
           },
           {
             text: [
@@ -59,8 +53,6 @@
               " I had so much fun building keynote demos, creating sample apps and tutorials, and traveling the world educating developers.",
             ],
             image: "/images/image4.png",
-            imageHeight: "80%",
-            imageWidth: "80%",
           },
           {
             text: [
@@ -68,8 +60,6 @@
               " I’ve led product for PowerApps, Microsoft Azure, Salesforce Platform, Heroku, RapidAPI, and so much more.",
             ],
             image: "/images/image5.png",
-            imageHeight: "100%",
-            imageWidth: "100%",
           },
           {
             text: [
@@ -78,8 +68,6 @@
               " (I was just off screen to his left.)",
             ],
             image: "/images/image6.png",
-            imageHeight: "100%",
-            imageWidth: "100%",
           },
           {
             text: [
@@ -87,8 +75,6 @@
               " And that's why I'm here!",
             ],
             image: "/images/image7.png",
-            imageHeight: "100%",
-            imageWidth: "100%",
           },
           {
             text: [
@@ -96,14 +82,10 @@
               " We have three amazing kids: Hayley (18), Katie (16), and Ethan (13).",
             ],
             image: "/images/image8.png",
-            imageHeight: "100%",
-            imageWidth: "100%",
           },
           {
             text: ["We also have the two cutest doodles, Oskar and Rizzo."],
             image: "/images/image9.png",
-            imageHeight: "40%",
-            imageWidth: "40%",
           },
           {
             text: [
@@ -112,8 +94,6 @@
               " I’m not fast, but I’m stubborn.",
             ],
             image: "/images/image10.png",
-            imageHeight: "100%",
-            imageWidth: "100%",
           },
           {
             text: [
@@ -122,8 +102,6 @@
               " I’m thrilled for the opportunity to work with all of you to help make it happen.",
             ],
             image: "/images/image11.png",
-            imageHeight: "100%",
-            imageWidth: "100%",
           },
         ];
 
@@ -135,8 +113,6 @@
           const imageElement = document.getElementById("story-image");
           if (messages[index].image) {
             imageElement.src = messages[index].image;
-            imageElement.style.height = messages[index].imageHeight || "auto";
-            imageElement.style.width = messages[index].imageWidth || "auto";
             imageElement.hidden = false;
 
             imageElement.onload = () => {
@@ -167,7 +143,7 @@
           typingComplete = false;
 
           typeItInstance = new TypeIt("#message", {
-            speed: 50, // Fixed typing speed
+            speed: 45, // Fixed typing speed
             afterComplete: (instance) => {
               // Mark typing as complete
               typingComplete = true;
